@@ -2,7 +2,6 @@ version: "3.8"
 
 services:
   mysql:
-    user: "${UID}:${GID}" 
     image: mysql:5.7
     container_name: mysql
     environment:
@@ -12,9 +11,8 @@ services:
       MYSQL_PASSWORD: admin
     volumes:
       - ./mysql-data:/var/lib/mysql
-      - ./message.sql:/docker-entrypoint-initdb.d/message.sql  
     networks:
-      - twotier
+      - harsh
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 10s
@@ -23,7 +21,8 @@ services:
       start_period: 60s
 
   flask-app:
-    image: trainwithshubham/two-tier-flask-app:latest
+    build:
+      context: .
     container_name: flask-app
     ports:
       - "5000:5000"
@@ -35,14 +34,11 @@ services:
     depends_on:
       - mysql
     networks:
-      - twotier
+      - harsh
     restart: always
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
+
+volumes:
+  my_sql-data:
 networks:
-  twotier:
+  harsh:
