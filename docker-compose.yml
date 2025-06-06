@@ -13,7 +13,7 @@ services:
     volumes:
       - ./harsh_db:/var/lib/mysql  
     networks:
-      - harsh
+      - twotier
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 10s
