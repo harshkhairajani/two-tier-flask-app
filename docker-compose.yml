@@ -9,8 +9,10 @@ services:
       MYSQL_DATABASE: devops
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - ./my_sql_data:/var/lib/mysql
     networks:
       - harsh
     healthcheck:
@@ -39,6 +41,6 @@ services:
 
 
 volumes:
-  my_sql-data:
+  my_sql_data:
 networks:
   harsh:
